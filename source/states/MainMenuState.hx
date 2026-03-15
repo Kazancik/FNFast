@@ -15,6 +15,7 @@ import backend.ChartUtil;
 import backend.ChartInstaller;
 import backend.WeekData; // Add this!
 import haxe.Json;      // Add this!
+
 import flixel.FlxState;
 import flixel.FlxSubState;
 import flixel.FlxG;
@@ -169,7 +170,7 @@ class ChartsBrowserState extends FlxState
 function populateList():Void
     {
         listGroup.clear();
-		if (dataList.length == 0)
+        if (dataList.length == 0)
         {
             var welcomeText = new FlxText(0, 200, FlxG.width, "NO CHARTS FOUND!\n\nBe the first to create a chart\nin the Creator Menu and publish it!", 24);
             welcomeText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER);
@@ -182,25 +183,17 @@ function populateList():Void
             var item = dataList[i];
             var yOffset = 130 + (i * 90);
             
-            // Only charts can be featured right now
             var isFeatured:Bool = (mode == "charts" && item.featured == true);
-            
-            // 1. Slot Background (Featured gets a Gold tint)
             var slotColor:FlxColor = isFeatured ? 0xFF3D3814 : 0xFF1F1F1F;
             var slot = new flixel.FlxSprite(50, yOffset).makeGraphic(FlxG.width - 100, 80, slotColor);
             slot.alpha = 0.8;
             listGroup.add(slot);
 
-            // Get Author (Shared between both modes)
             var author = (item.author != null && item.author != "") ? item.author : "Unknown";
 
             if (mode == "charts")
             {
-                // ==========================================
-                // CHART MODE UI
-                // ==========================================
                 var displayRating:Float = (item.manual_rating != null) ? item.manual_rating : (item.suggested_rating != null ? item.suggested_rating : 0);
-                
                 var rankName:String = "EASY";
                 var rankColor:FlxColor = FlxColor.LIME;
 
@@ -231,9 +224,6 @@ function populateList():Void
             }
             else
             {
-                // ==========================================
-                // PLAYLIST MODE UI
-                // ==========================================
                 var listText = new FlxText(70, yOffset + 10, slot.width - 250, "WEEK: " + item.name.toUpperCase(), 22);
                 listText.setFormat(Paths.font("vcr.ttf"), 22, FlxColor.YELLOW, LEFT, OUTLINE, FlxColor.BLACK);
                 listGroup.add(listText);
@@ -242,12 +232,10 @@ function populateList():Void
                 authorText.color = FlxColor.LIME;
                 listGroup.add(authorText);
 
-                // Format the array of songs into a readable string
                 var songString = "No tracks";
                 if (item.charts != null) {
                     var songArray:Array<String> = cast item.charts;
                     songString = songArray.join(", ");
-                    // Truncate it if it's too long so it doesn't overlap the download button
                     if (songString.length > 55) {
                         songString = songString.substring(0, 52) + "...";
                     }
@@ -258,24 +246,36 @@ function populateList():Void
                 listGroup.add(trackText);
             }
 
-            // 7. Download Button (Shared)
             var dlBtn = new FlxButton(slot.x + slot.width - 110, yOffset + 25, "GET", function() {
                 if (mode == "charts") {
                     downloadChart(item.id, item.name);
                 } else {
                     var playlist:Array<String> = cast item.charts;
-                    downloadPlaylist(item.name, playlist); // Passes name to make the Week File
+                    downloadPlaylist(item.name, playlist);
                 }
             });
             dlBtn.setGraphicSize(80, 30);
             dlBtn.updateHitbox();
             listGroup.add(dlBtn);
         }
+
+        // ==========================================
+        // CALL TO ACTION (End of list message)
+        // ==========================================
+        var endY = 130 + (dataList.length * 90) + 20;
+        var endOfListText = new FlxText(0, endY, FlxG.width, 
+            "--- End of the list ---\nInspired? Create and Publish your own chart!", 18);
+        endOfListText.setFormat(Paths.font("vcr.ttf"), 18, 0xFF666666, CENTER);
+        listGroup.add(endOfListText);
         
-        maxScroll = -(dataList.length * 90) + FlxG.height - 200;
+        // Add some extra space at the very bottom
+        var spacer = new flixel.FlxSprite(0, endY + 80).makeGraphic(1, 1, 0x00000000);
+        listGroup.add(spacer);
+
+        // UPDATED: Adjust maxScroll to include the CTA and spacer
+        maxScroll = -(endY + 100) + FlxG.height;
         if (maxScroll > 0) maxScroll = 0;
     }
-
 	function downloadPlaylist(playlistName:String, chartIDs:Array<String>)
 	{
 		// 1. Download all charts
@@ -297,6 +297,8 @@ function populateList():Void
     function downloadChart(id:String, name:String)
     {
         showProgress(name);
+
+
         var http = new Http(OnlineManager.serverURL + "/download_chart?id=" + id);
         http.onBytes = function(bytes:haxe.io.Bytes) {
             var norm = ChartUtil.normalizeSong(name);

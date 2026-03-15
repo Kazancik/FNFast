@@ -42,13 +42,12 @@ class ChartInstaller
                     File.saveBytes(dataPath + songName + "-normal.json", bytes);
                 }
             }
-            else if (filename.indexOf("inst") != -1)
-            {
-                File.saveBytes(songsPath + "Inst.ogg", bytes);
+            // Inside your install() loop in ChartInstaller.hx
+            else if (filename == "inst_source.txt") {
+                File.saveBytes(dataPath + "inst_source.txt", bytes);
             }
-            else if (filename.indexOf("voices") != -1)
-            {
-                File.saveBytes(songsPath + "Voices.ogg", bytes);
+            else if (filename == "voices_source.txt") {
+                File.saveBytes(dataPath + "voices_source.txt", bytes);
             }
         }
         input.close();

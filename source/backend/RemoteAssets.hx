@@ -9,6 +9,24 @@ import sys.io.File;
 import sys.FileSystem;
 import haxe.io.Path; // <--- ADD THIS IMPORT
 import backend.OnlineManager;
+import haxe.crypto.Md5;
+class HashUtil
+{
+    /**
+     * Returns the MD5 hash of a file's content.
+     */
+    public static function getFileHash(path:String):String
+    {
+        if (!FileSystem.exists(path)) return "";
+        
+        try {
+            var bytes = File.getBytes(path);
+            return Md5.encode(bytes.toString());
+        } catch(e:Dynamic) {
+            return "";
+        }
+    }
+}
 class RemoteAssets
 {
     // Make sure this matches your server URL exactly
@@ -62,7 +80,60 @@ class RemoteAssets
 
         http.request(false); 
     }
+    public static function downloadSoundCloud(url:String, songName:String, targetFile:String, onDone:Void->Void)
+    {
+        var localPath = "assets/songs/" + songName + "/" + targetFile;
+        
+        // 1. Ask server for the hash of this URL's audio
+        var checkUrl = backend.OnlineManager.serverURL + "/check_audio?url=" + StringTools.urlEncode(url);
+        var httpCheck = new haxe.Http(checkUrl);
+        
+        httpCheck.onData = function(data:String) {
+            var res = haxe.Json.parse(data);
+            
+            if (res.exists && sys.FileSystem.exists(localPath)) {
+                var localHash = HashUtil.getFileHash(localPath);
+                if (localHash == res.hash) {
+                    trace("Audio hash matches! Skipping stream: " + targetFile);
+                    onDone();
+                    return;
+                }
+            }
+            var localPath = "assets/songs/" + songName + "/" + targetFile;
+            if (sys.FileSystem.exists(localPath)) { onDone(); return; }
 
+            trace("Requesting OGG Conversion for: " + songName);
+            
+            var requestUrl = backend.OnlineManager.serverURL + "/proxy_audio?url=" + StringTools.urlEncode(url);
+            var http = new haxe.Http(requestUrl);
+            
+            http.onBytes = function(bytes:haxe.io.Bytes) 
+            {
+                // Size Check: A converted OGG should be at least 500KB
+                if (bytes.length < 100000) {
+                    trace("Conversion failed or file too small. Length: " + bytes.length);
+                    onDone();
+                    return;
+                }
+
+                var dir = "assets/songs/" + songName + "/";
+                if (!sys.FileSystem.exists(dir)) sys.FileSystem.createDirectory(dir);
+                
+                sys.io.File.saveBytes(localPath, bytes);
+                trace("Successfully saved converted OGG: " + targetFile + " (" + bytes.length + " bytes)");
+                onDone();
+            };
+
+            http.onError = function(e) {
+                trace("Server Conversion Error: " + e);
+                onDone();
+            };
+
+            // This might take a few seconds because the server is converting!
+            http.request(false); 
+        };
+        httpCheck.request();
+    }
     static function createDirFor(path:String)
     {
         var parts = path.split("/");

@@ -88,6 +88,27 @@ class LoadingState extends MusicBeatState
 	#if HSCRIPT_ALLOWED
 	var hscript:HScript;
 	#end
+static function checkAudioSources(songName:String, onDone:Void->Void) {
+    var dataDir = "assets/shared/data/" + songName + "/";
+    var instL = dataDir + "inst_source.txt";
+    var voiceL = dataDir + "voices_source.txt";
+
+    if (sys.FileSystem.exists(instL)) {
+        var url = sys.io.File.getContent(instL);
+        // FIX: Added "Inst.ogg" as the 3rd argument
+        backend.RemoteAssets.downloadSoundCloud(url, songName, "Inst.ogg", function() {
+            if (sys.FileSystem.exists(voiceL)) {
+                var vUrl = sys.io.File.getContent(voiceL);
+                // FIX: Added "Voices.ogg" as the 3rd argument
+                backend.RemoteAssets.downloadSoundCloud(vUrl, songName, "Voices.ogg", onDone);
+            } else {
+                onDone();
+            }
+        });
+    } else {
+        onDone();
+    }
+}
 	override function create()
 	{
 		persistentUpdate = true;
@@ -458,6 +479,30 @@ class LoadingState extends MusicBeatState
 		var song:SwagSong = PlayState.SONG;
 		var folder:String = Paths.formatToSongPath(Song.loadedSongName);
 		ensureSongMaterials(song);
+		var downloadFinished:Bool = false;
+
+    // WAIT HERE
+
+		checkAudioSources(song.song, function() {
+			downloadFinished = true;
+    		trace("SoundCloud check completed, proceeding with load.");
+		});
+		var songName = Paths.formatToSongPath(PlayState.SONG.song);
+		var sourceFile = "assets/shared/data/" + songName + "/audio_source.txt";
+		while(!downloadFinished) {
+			#if sys
+			Sys.sleep(0.1); 
+			#end
+		}
+		if (sys.FileSystem.exists(sourceFile)) 
+		{
+			var scUrl = sys.io.File.getContent(sourceFile);
+			
+			// We added "Inst.ogg" as the 3rd thing. The function is now the 4th thing.
+			backend.RemoteAssets.downloadSoundCloud(scUrl, songName, "Inst.ogg", function() {
+				trace("Audio ready, continuing load...");
+			});
+		}
 		new Future<Bool>(() -> {
 			// LOAD NOTE IMAGE
 			var noteSkin:String = Note.defaultNoteSkin;
