@@ -1,0 +1,12 @@
+{
+	"lua": [],
+	"sounds": [],
+	"json": [
+		"data/bf.json"
+	],
+	"assets": [
+		"images/BOYFRIEND.png",
+		"images/BOYFRIEND.xml"
+	],
+	"type": "mixed"
+}

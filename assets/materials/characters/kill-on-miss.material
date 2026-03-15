@@ -1,0 +1,9 @@
+{
+	"lua": [
+		"scripts/death.lua"
+	],
+	"sounds": [],
+	"json": [],
+	"assets": [],
+	"type": "mixed"
+}

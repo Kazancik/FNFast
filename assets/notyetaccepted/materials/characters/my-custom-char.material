@@ -1,0 +1,9 @@
+{
+	"lua": [
+		"scripts/test.lua"
+	],
+	"sounds": [],
+	"json": [],
+	"assets": [],
+	"type": "mixed"
+}
