@@ -9,11 +9,17 @@ import flixel.util.FlxSave;
 import haxe.Http;
 import haxe.Json;
 import backend.OnlineManager;
+import backend.ClientPrefs; // REQUIRED IMPORT
+
 class LoginState extends FlxState
 {
     var usernameInput:FlxInputText;
     var passwordInput:FlxInputText;
     var statusText:FlxText;
+
+    var loginBtn:FlxButton;
+    var registerBtn:FlxButton;
+    var offlineBtn:FlxButton;
 
     var save:FlxSave;
 
@@ -32,58 +38,55 @@ class LoginState extends FlxState
 
         // ---------- USERNAME ----------
         usernameInput = new FlxInputText(300, 150, 200, "");
-
         add(usernameInput);
 
         // ---------- PASSWORD ----------
         passwordInput = new FlxInputText(300, 200, 200, "");
         passwordInput.passwordMode = true;
-
         add(passwordInput);
 
         // ---------- STATUS ----------
-        statusText = new FlxText(0, 260, FlxG.width, "");
+        statusText = new FlxText(0, 260, FlxG.width, "Connecting to server...");
         statusText.alignment = "center";
         add(statusText);
 
         // ---------- BUTTONS ----------
-        var loginBtn = new FlxButton(300, 320, "LOGIN", doLogin);
-        add(loginBtn);
+        loginBtn = new FlxButton(300, 320, "LOGIN", doLogin);
+        registerBtn = new FlxButton(420, 320, "REGISTER", doRegister);
+        offlineBtn = new FlxButton(540, 320, "OFFLINE MODE", doOffline);
+        
+        loginBtn.active = false;
+        registerBtn.active = false;
 
-        var registerBtn = new FlxButton(420, 320, "REGISTER", doRegister);
+        add(loginBtn);
         add(registerBtn);
-        var offlineBtn = new FlxButton(540, 320, "OFFLINE MODE", function() goToMenu());
         add(offlineBtn);
+
+        // INIT ONLINE MANAGER
         OnlineManager.init(function() {
-            // This runs once the GitHub IP is found and decrypted
             statusText.text = "Connected. Ready to Login.";
-            
-            // Re-enable buttons
             loginBtn.active = true;
-            loginBtn.alpha = 1;
             registerBtn.active = true;
-            registerBtn.alpha = 1;
+
+            // ---------- AUTO LOGIN ----------
+            if (save.data.token != null)
+            {
+                statusText.text = "Auto logging in...";
+                autoLogin(save.data.token);
+            }
         });
-    
-        // ---------- AUTO LOGIN ----------
-        if (save.data.token != null)
-        {
-            statusText.text = "Auto logging in...";
-            autoLogin(save.data.token);
-        }
     }
 
     // =====================================================
     // LOGIN
     // =====================================================
-
     function doLogin():Void
     {
         statusText.text = "Logging in...";
 
-        var http = new Http(backend.OnlineManager.serverURL + "/login");
-
+        var http = new Http(OnlineManager.serverURL + "/login");
         http.setHeader("Content-Type", "application/json");
+        http.setHeader("Accept", "application/json");
 
         http.setPostData(Json.stringify({
             username: usernameInput.text,
@@ -94,17 +97,25 @@ class LoginState extends FlxState
         {
             var response:Dynamic = Json.parse(data);
 
-            save.data.token = response.token;
-            save.flush();
+            if (response.success) {
+                // Save for next time game opens
+                save.data.token = response.token;
+                save.flush();
 
-            statusText.text = "Login success!";
-            goToMenu();
+                // FIX: Save for CURRENT session
+                ClientPrefs.data.authToken = response.token;
+                ClientPrefs.data.username = response.username;
+                ClientPrefs.saveSettings();
+
+                statusText.text = "Login success!";
+                goToMenu();
+            } else {
+                statusText.text = "Login failed!";
+            }
         };
 
-        http.onError = function(err)
-        {
-            statusText.text = "Login failed";
-            trace(err);
+        http.onError = function(err) {
+            statusText.text = "Login failed: " + err;
         };
 
         http.request(true);
@@ -113,13 +124,11 @@ class LoginState extends FlxState
     // =====================================================
     // REGISTER
     // =====================================================
-
     function doRegister():Void
     {
         statusText.text = "Registering...";
 
-        var http = new Http(backend.OnlineManager.serverURL + "/register");
-
+        var http = new Http(OnlineManager.serverURL + "/register");
         http.setHeader("Content-Type", "application/json");
 
         http.setPostData(Json.stringify({
@@ -127,15 +136,12 @@ class LoginState extends FlxState
             password: passwordInput.text
         }));
 
-        http.onData = function(data:String)
-        {
+        http.onData = function(data:String) {
             statusText.text = "Registered! Now login.";
         };
 
-        http.onError = function(err)
-        {
-            statusText.text = "Register failed";
-            trace(err);
+        http.onError = function(err) {
+            statusText.text = "Register failed: " + err;
         };
 
         http.request(true);
@@ -144,12 +150,11 @@ class LoginState extends FlxState
     // =====================================================
     // AUTO LOGIN
     // =====================================================
-
     function autoLogin(token:String):Void
     {
-        var http = new Http(backend.OnlineManager.serverURL + "/token_login");
-
+        var http = new Http(OnlineManager.serverURL + "/token_login");
         http.setHeader("Content-Type", "application/json");
+        http.setHeader("Accept", "application/json");
 
         http.setPostData(Json.stringify({
             token: token
@@ -157,25 +162,21 @@ class LoginState extends FlxState
 
         http.onData = function(data:String)
         {
-            trace("Server response: " + data);
-
             var json:Dynamic = haxe.Json.parse(data);
 
-            if(json == null || json.success != true)
-            {
-                statusText.text = "Login failed";
+            if(json == null || json.success != true) {
+                statusText.text = "Session Expired. Please login.";
+                save.data.token = null;
+                save.flush();
                 return;
             }
 
-            // SAVE LOGIN DATA
-            ClientPrefs.authToken = json.token;
-            ClientPrefs.username = json.username;
-
-            statusText.text = "Auto login success!";
-
-
+            // FIX: Use .data for Psych 0.7+
+            ClientPrefs.data.authToken = json.token;
+            ClientPrefs.data.username = json.username;
             ClientPrefs.saveSettings();
 
+            statusText.text = "Auto login success!";
             goToMenu();
         };
 
@@ -190,20 +191,28 @@ class LoginState extends FlxState
     }
 
     // =====================================================
+    // OFFLINE MODE
+    // =====================================================
+    function doOffline():Void
+    {
+        // Clear session so Anti-Cheat ignores scores and Publisher blocks uploads
+        ClientPrefs.data.authToken = "";
+        ClientPrefs.data.username = "Guest";
+        ClientPrefs.saveSettings();
+        
+        goToMenu();
+    }
+
+    // =====================================================
     // NEXT STATE
     // =====================================================
-
     function goToMenu():Void
     {
-        // change this if you want another state
-        if (FlxG.sound.music == null)
-        {
+        if (FlxG.sound.music == null) {
             FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
         }
-
+        
+        // FIX: Removed duplicate switchState call
         MusicBeatState.switchState(new MainMenuState());
-
-        MusicBeatState.switchState(new MainMenuState());
-
     }
 }

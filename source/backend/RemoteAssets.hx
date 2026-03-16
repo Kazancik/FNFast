@@ -147,6 +147,53 @@ class RemoteAssets
                 FileSystem.createDirectory(current);
         }
     }
+public static function convertAudio(url:String, songName:String, fileName:String, onDone:Void->Void)
+    {
+        var localPath = "assets/songs/" + songName + "/" + fileName;
+        if (sys.FileSystem.exists(localPath)) { onDone(); return; }
+
+        var dir = "assets/songs/" + songName + "/";
+        if (!sys.FileSystem.exists(dir)) sys.FileSystem.createDirectory(dir);
+
+        trace("Running local conversion: " + url);
+
+        // We use a Thread so the game keeps rendering the loading screen!
+        sys.thread.Thread.create(function() {
+            var args = [
+                "--quiet", "--no-warnings", 
+                "-x", 
+                "--audio-format", "vorbis", 
+                "--audio-quality", "5",
+                "--ffmpeg-location", "./ffmpeg.exe",
+                "-o", localPath.replace(".ogg", ".%(ext)s"),
+                url
+            ];
+
+            try {
+                // Launch yt-dlp
+                var proc = new sys.io.Process("./yt-dlp.exe", args);
+                
+                // Read what the program is saying (Good for debugging!)
+                var output = proc.stdout.readAll().toString();
+                var errorOut = proc.stderr.readAll().toString();
+                
+                var exitCode = proc.exitCode(); 
+                proc.close();
+                
+                if (exitCode == 0) {
+                    trace("Local conversion success for " + fileName + "!");
+                } else {
+                    trace("yt-dlp Error Code " + exitCode + ": " + errorOut);
+                }
+                
+            } catch(e:Dynamic) {
+                trace("FATAL: Could not start yt-dlp.exe! Make sure it is in your game folder. Error: " + e);
+            }
+
+            // Important: Call onDone() whether it failed or succeeded so the game can continue!
+            onDone();
+        });
+    }
 }
 
 

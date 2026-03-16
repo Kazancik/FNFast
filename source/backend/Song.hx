@@ -20,7 +20,8 @@ typedef SwagSong =
 	var gfVersion:String;
 	var stage:String;
 	var format:String;
-
+	var ?sc_inst:String;   // New field for Instrumental link
+    var ?sc_voices:String; // New field for Voices link
 	@:optional var gameOverChar:String;
 	@:optional var gameOverSound:String;
 	@:optional var gameOverLoop:String;

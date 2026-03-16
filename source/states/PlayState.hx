@@ -554,7 +554,31 @@ class PlayState extends MusicBeatState
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 		moveCameraSection();
+		var invalidReasons:Array<String> = [];
 
+		if (cpuControlled) invalidReasons.push("Botplay");
+		if (backend.ClientPrefs.data.authToken == null || backend.ClientPrefs.data.authToken == "") invalidReasons.push("Not Logged In");
+		if (healthGain != 1) invalidReasons.push("Health Gain Mod");
+		if (healthLoss != 1) invalidReasons.push("Health Loss Mod");
+		if (practiceMode) invalidReasons.push("Practice Mode");
+		if (ClientPrefs.getGameplaySetting('scrollspeed') != 1) invalidReasons.push("Scroll Speed Mod");
+		if (ClientPrefs.getGameplaySetting('scrolltype') != 'multiplicative') invalidReasons.push("Scroll Type Mod");
+		if	(ClientPrefs.getGameplaySetting('songspeed') != 1) invalidReasons.push("Song Speed Mod");
+		// If there are any reasons, display the red warning!
+		if (invalidReasons.length > 0)
+		{
+			var warningStr = "UNRANKED PLAY - SCORE WILL NOT SAVE\nCauses: " + invalidReasons.join(", ");
+			
+			var unrankedWarning = new FlxText(0, 120, FlxG.width, warningStr, 20);
+			unrankedWarning.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			unrankedWarning.scrollFactor.set();
+			unrankedWarning.borderSize = 2;
+			unrankedWarning.cameras = [camHUD]; // Put it on the UI camera
+			add(unrankedWarning);
+
+			// Optional: Fade it out after 5 seconds so it doesn't distract them forever
+			FlxTween.tween(unrankedWarning, {alpha: 0}, 2, {startDelay: 5});
+		}
 		healthBar = new Bar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.89 : 0.11), 'healthBar', function() return health, 0, 2);
 		healthBar.screenCenter(X);
 		healthBar.leftToRight = false;
@@ -2462,7 +2486,7 @@ class PlayState extends MusicBeatState
 		practiceMode = ClientPrefs.getGameplaySetting('practice');
 		cpuControlled = ClientPrefs.getGameplaySetting('botplay'); // To send to server, make sure healtgain/loss is 1, and practice mode is off, and scroll speed multiplier is 1 and multiplicative (since constant may lower the songspeed), otherwise it might cause issues with some charts and stuff. Also, if you have botplay on, it won't send scores to the server at all, so you can botplay to test charts without worrying about it sending bad scores to the server
 */
-    if (!cpuControlled && backend.ClientPrefs.authToken != ""  && healthGain == 1 && healthLoss == 1 && !practiceMode && ClientPrefs.getGameplaySetting('scrollspeed') == 1 && ClientPrefs.getGameplaySetting('scrolltype') == 'multiplicative') 
+    if (!cpuControlled && ClientPrefs.getGameplaySetting('songspeed') != 1 &&backend.ClientPrefs.authToken != ""  && healthGain == 1 && healthLoss == 1 && !practiceMode && ClientPrefs.getGameplaySetting('scrollspeed') == 1 && ClientPrefs.getGameplaySetting('scrolltype') == 'multiplicative' )
     {
         var songId:String = Paths.formatToSongPath(SONG.song);
         var user:String = backend.ClientPrefs.username;

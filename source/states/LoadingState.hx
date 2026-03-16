@@ -88,19 +88,17 @@ class LoadingState extends MusicBeatState
 	#if HSCRIPT_ALLOWED
 	var hscript:HScript;
 	#end
-static function checkAudioSources(songName:String, onDone:Void->Void) {
-    var dataDir = "assets/shared/data/" + songName + "/";
-    var instL = dataDir + "inst_source.txt";
-    var voiceL = dataDir + "voices_source.txt";
+static function checkAudioSources(song:backend.Song.SwagSong, onDone:Void->Void) {
+    // We use Reflect to look for the fields safely without crashing
+    var instLink:String = Reflect.field(song, "sc_inst");
+    var voicesLink:String = Reflect.field(song, "sc_voices");
 
-    if (sys.FileSystem.exists(instL)) {
-        var url = sys.io.File.getContent(instL);
-        // FIX: Added "Inst.ogg" as the 3rd argument
-        backend.RemoteAssets.downloadSoundCloud(url, songName, "Inst.ogg", function() {
-            if (sys.FileSystem.exists(voiceL)) {
-                var vUrl = sys.io.File.getContent(voiceL);
-                // FIX: Added "Voices.ogg" as the 3rd argument
-                backend.RemoteAssets.downloadSoundCloud(vUrl, songName, "Voices.ogg", onDone);
+    if (instLink != null && instLink.length > 5) {
+        trace("Found SoundCloud Inst: " + instLink);
+        backend.RemoteAssets.convertAudio(instLink, song.song, "Inst.ogg", function() {
+            if (voicesLink != null && voicesLink.length > 5) {
+                trace("Found SoundCloud Voices: " + voicesLink);
+                backend.RemoteAssets.convertAudio(voicesLink, song.song, "Voices.ogg", onDone);
             } else {
                 onDone();
             }
@@ -483,7 +481,7 @@ static function checkAudioSources(songName:String, onDone:Void->Void) {
 
     // WAIT HERE
 
-		checkAudioSources(song.song, function() {
+		checkAudioSources(song, function() {
 			downloadFinished = true;
     		trace("SoundCloud check completed, proceeding with load.");
 		});
