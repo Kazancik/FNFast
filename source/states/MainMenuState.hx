@@ -13,9 +13,8 @@ import sys.FileSystem;
 import haxe.Http;
 import backend.ChartUtil;
 import backend.ChartInstaller;
-import backend.WeekData; // Add this!
-import haxe.Json;      // Add this!
-
+import backend.WeekData;
+import haxe.Json;      
 import flixel.FlxState;
 import flixel.FlxSubState;
 import flixel.FlxG;
@@ -34,6 +33,190 @@ import backend.OnlineManager;
 import flixel.text.FlxText;
 import flixel.group.FlxGroup;
 
+import haxe.crypto.Md5;
+class CommentsSubState extends FlxSubState
+{
+    var chartId:String;
+    var chartName:String;
+    
+    var commentsGroup:FlxSpriteGroup;
+    var commentInput:FlxUIInputText;
+    var statusText:FlxText;
+
+    var scrollY:Float = 0;
+    var targetScrollY:Float = 0;
+    var maxScroll:Float = 0;
+
+    public function new(id:String, name:String)
+    {
+        super();
+        this.chartId = id;
+        this.chartName = name;
+    }
+
+    override public function create():Void
+    {
+        super.create();
+
+        // Dark transparent background
+        var bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+        bg.alpha = 0.85;
+        add(bg);
+
+        // Main Panel
+        var panel = new FlxSprite(100, 50).makeGraphic(FlxG.width - 200, FlxG.height - 100, 0xFF1A1A1A);
+        add(panel);
+
+        var title = new FlxText(100, 60, FlxG.width - 200, "COMMENTS: " + chartName.toUpperCase(), 24);
+        title.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.YELLOW, CENTER, OUTLINE, FlxColor.BLACK);
+        add(title);
+
+        add(new FlxButton(FlxG.width - 190, 60, "X CLOSE", function() { close(); }));
+
+        // Comments Area
+        commentsGroup = new FlxSpriteGroup();
+        add(commentsGroup);
+
+        // Input Area (Bottom)
+        var bottomPanel = new FlxSprite(100, FlxG.height - 120).makeGraphic(FlxG.width - 200, 70, 0xFF2A2A2A);
+        add(bottomPanel);
+
+        commentInput = new FlxUIInputText(120, FlxG.height - 100, FlxG.width - 360, "", 16);
+        add(commentInput);
+
+        var sendBtn = new FlxButton(FlxG.width - 220, FlxG.height - 100, "SEND", postComment);
+        add(sendBtn);
+
+        statusText = new FlxText(120, FlxG.height - 75, 400, "", 12);
+        statusText.color = FlxColor.RED;
+        add(statusText);
+
+        fetchComments();
+    }
+
+    override public function update(elapsed:Float):Void
+    {
+        super.update(elapsed);
+
+        // Scrolling logic for comments
+        if (FlxG.mouse.wheel != 0 && !commentInput.hasFocus) {
+            targetScrollY += FlxG.mouse.wheel * 60;
+        }
+
+        if (targetScrollY > 0) targetScrollY = 0;
+        if (targetScrollY < maxScroll) targetScrollY = maxScroll;
+        
+        scrollY = FlxMath.lerp(scrollY, targetScrollY, 0.15);
+        commentsGroup.y = scrollY;
+    }
+
+    function fetchComments():Void
+    {
+        commentsGroup.clear();
+        var loading = new FlxText(120, 150, 400, "Loading comments...", 16);
+        commentsGroup.add(loading);
+
+        var http = new Http(OnlineManager.serverURL + "/get_comments/" + chartId);
+        http.onData = function(res) {
+            var data:Array<Dynamic> = Json.parse(res);
+            buildComments(data);
+        };
+        http.onError = function(err) {
+            loading.text = "Error loading comments.";
+        };
+        http.request();
+    }
+
+    function buildComments(data:Array<Dynamic>):Void
+    {
+        commentsGroup.clear();
+        
+        if (data.length == 0) {
+            commentsGroup.add(new FlxText(120, 150, 400, "No comments yet. Be the first!", 16));
+            maxScroll = 0;
+            return;
+        }
+
+        for (i in 0...data.length)
+        {
+            var c = data[i];
+            var cy = 110 + (i * 60);
+
+            var userTxt = new FlxText(120, cy, 0, c.user + " [" + c.time + "]:", 16);
+            userTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.CYAN, LEFT, OUTLINE, FlxColor.BLACK);
+            commentsGroup.add(userTxt);
+
+            var msgTxt = new FlxText(140, cy + 20, FlxG.width - 280, c.text, 14);
+            msgTxt.color = FlxColor.WHITE;
+            commentsGroup.add(msgTxt);
+        }
+
+        maxScroll = -(data.length * 60) + (FlxG.height - 300);
+        if (maxScroll > 0) maxScroll = 0;
+    }
+
+    function postComment():Void
+    {
+        if (ClientPrefs.data.authToken == null || ClientPrefs.data.authToken == "") {
+            statusText.text = "You must be logged in to comment.";
+            return;
+        }
+        if (commentInput.text.length == 0) return;
+
+        statusText.text = "Sending...";
+        statusText.color = FlxColor.WHITE;
+
+        var http = new Http(OnlineManager.serverURL + "/post_comment");
+        http.setHeader("Content-Type", "application/json");
+        
+        var payload = {
+            username: ClientPrefs.data.username,
+            token: ClientPrefs.data.authToken,
+            chart_id: chartId,
+            comment: commentInput.text
+        };
+
+        http.setPostData(Json.stringify(payload));
+        http.onData = function(res) {
+            var r = Json.parse(res);
+            if (r.status == "success") {
+                commentInput.text = "";
+                statusText.text = "Comment posted!";
+                statusText.color = FlxColor.LIME;
+                targetScrollY = 0; // Reset scroll to top
+                fetchComments(); // Refresh list
+            } else {
+                statusText.text = r.message;
+                statusText.color = FlxColor.RED;
+            }
+        };
+        http.onError = function(err) {
+            statusText.text = "Failed to post.";
+            statusText.color = FlxColor.RED;
+        };
+        http.request(true);
+    }
+}
+class HashUtil
+{
+    /**
+     * Reads a file and returns its MD5 hash.
+     * Returns an empty string if the file doesn't exist.
+     */
+    public static function getFileHash(path:String):String
+    {
+        if (!FileSystem.exists(path)) return "";
+        
+        try {
+            var bytes = File.getBytes(path);
+            // Convert bytes to a hex string MD5 hash
+            return Md5.encode(bytes.toString());
+        } catch(e:Dynamic) {
+            trace("Hash error: " + e);
+            return "";
+        }
+    }
+}
 
 enum MainMenuColumn {
 	LEFT;
@@ -99,15 +282,21 @@ override function create()
 }
 
 
+
+
+
+
 class ChartsBrowserState extends FlxState
 {
     var dataList:Array<Dynamic> = [];
     var mode:String = "charts"; // "charts" or "lists"
+    var showUncompletedFirst:Bool = false; // Filter toggle
     
     var listGroup:FlxSpriteGroup;
     var progressBox:FlxSpriteGroup;
     var progressText:FlxText;
     var searchInput:FlxUIInputText;
+    var filterBtn:FlxButton;
     
     var scrollY:Float = 0;
     var targetScrollY:Float = 0;
@@ -138,6 +327,12 @@ class ChartsBrowserState extends FlxState
         add(searchInput);
         add(new FlxButton(410, 50, "FIND", function() loadData(searchInput.text)));
 
+        // Filter Button
+        filterBtn = new FlxButton(20, 90, "Sort: Default", toggleFilter);
+        filterBtn.setGraphicSize(150, 20);
+        filterBtn.updateHitbox();
+        add(filterBtn);
+
         add(new FlxButton(FlxG.width - 100, 20, "BACK", function() FlxG.switchState(new MainMenuState())));
         
         loadData("");
@@ -155,37 +350,74 @@ class ChartsBrowserState extends FlxState
         listGroup.y = scrollY;
     }
 
+    function toggleFilter() 
+    {
+        showUncompletedFirst = !showUncompletedFirst;
+        filterBtn.text = showUncompletedFirst ? "Sort: Unplayed" : "Sort: Alphabetic";
+        applyFilterAndPopulate();
+    }
+
     function loadData(query:String):Void
     {
         var endpoint = (mode == "charts") ? "/charts" : "/lists";
-        var http = new Http(OnlineManager.serverURL + endpoint + "?q=" + StringTools.urlEncode(query));
+        var url = OnlineManager.serverURL + endpoint + "?q=" + StringTools.urlEncode(query) + "&username=" + StringTools.urlEncode(ClientPrefs.data.username);
         
+        var http = new Http(url);
         http.onData = function(res) {
-            dataList = Json.parse(res);
-            populateList();
+            try {
+                dataList = Json.parse(res);
+                applyFilterAndPopulate();
+            } catch(e:Dynamic) {
+                trace("Error parsing data: " + e);
+            }
+        };
+        http.onError = function(err) {
+            trace("Server Error: " + err);
         };
         http.request();
     }
 
-function populateList():Void
+    function applyFilterAndPopulate() 
+    {
+        if (showUncompletedFirst && mode == "charts") {
+            // Sort so uncompleted (false) comes first
+            dataList.sort(function(a, b) {
+                var aComp:Bool = (a.completed == true);
+                var bComp:Bool = (b.completed == true);
+                if (aComp == bComp) return 0;
+                if (aComp && !bComp) return 1;
+                return -1;
+            });
+        }
+        populateList();
+    }
+
+    function populateList():Void
     {
         listGroup.clear();
+
         if (dataList.length == 0)
         {
-            var welcomeText = new FlxText(0, 200, FlxG.width, "NO CHARTS FOUND!\n\nBe the first to create a chart\nin the Creator Menu and publish it!", 24);
+            var welcomeText = new FlxText(0, 200, FlxG.width, "NO CONTENT FOUND!\n\nBe the first to create and publish\nin the Creator Menu!", 24);
             welcomeText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER);
             listGroup.add(welcomeText);
+            maxScroll = 0;
             return;
         }
 
         for (i in 0...dataList.length)
         {
             var item = dataList[i];
-            var yOffset = 130 + (i * 90);
+            var yOffset = 150 + (i * 110); // Increased slot height to 110 for description
             
             var isFeatured:Bool = (mode == "charts" && item.featured == true);
+            var isCompleted:Bool = (item.completed == true);
+            
+            // Slot Background (Featured = Gold, Completed = Slight Green Tint)
             var slotColor:FlxColor = isFeatured ? 0xFF3D3814 : 0xFF1F1F1F;
-            var slot = new flixel.FlxSprite(50, yOffset).makeGraphic(FlxG.width - 100, 80, slotColor);
+            if (mode == "charts" && isCompleted) slotColor = 0xFF1A3320; 
+
+            var slot = new FlxSprite(50, yOffset).makeGraphic(FlxG.width - 100, 100, slotColor);
             slot.alpha = 0.8;
             listGroup.add(slot);
 
@@ -193,7 +425,11 @@ function populateList():Void
 
             if (mode == "charts")
             {
+                // ==========================================
+                // CHART MODE UI
+                // ==========================================
                 var displayRating:Float = (item.manual_rating != null) ? item.manual_rating : (item.suggested_rating != null ? item.suggested_rating : 0);
+                
                 var rankName:String = "EASY";
                 var rankColor:FlxColor = FlxColor.LIME;
 
@@ -208,22 +444,46 @@ function populateList():Void
                 listGroup.add(songText);
 
                 var statusStr = (item.status != null) ? item.status.toUpperCase() : "UNKNOWN";
-                var authorText = new FlxText(70, yOffset + 40, 0, "BY: " + author.toUpperCase() + " [" + statusStr + "]", 14);
+                var authorText = new FlxText(70, yOffset + 35, 0, "BY: " + author.toUpperCase() + " [" + statusStr + "]", 14);
                 authorText.color = (item.status == "verified") ? FlxColor.LIME : 0xFFAAAAAA;
                 listGroup.add(authorText);
 
-                var diffText = new FlxText(slot.x + slot.width - 220, yOffset + 15, 150, rankName + "\n" + displayRating + " ★", 18);
+                // DESCRIPTION
+                var descStr = (item.desc != null && item.desc != "") ? item.desc : "No description provided.";
+                if(descStr.length > 55) descStr = descStr.substring(0, 52) + "...";
+                var descText = new FlxText(70, yOffset + 55, slot.width - 250, descStr, 14);
+                descText.color = 0xFFCCCCCC;
+                listGroup.add(descText);
+
+                // DIFFICULTY BADGE
+                var diffText = new FlxText(slot.x + slot.width - 220, yOffset + 10, 150, rankName + "\n" + displayRating + " ★", 18);
                 diffText.setFormat(Paths.font("vcr.ttf"), 18, rankColor, CENTER, OUTLINE, FlxColor.BLACK);
                 listGroup.add(diffText);
 
+                // LIKE BUTTON
+                var likes = (item.likes != null) ? item.likes : 0;
+                var likeBtn = new FlxButton(slot.x + slot.width - 220, yOffset + 55, "Likes: " + likes, function() {
+                    likeChart(item.id, i);
+                });
+                likeBtn.color = 0xFFFF6666;
+                listGroup.add(likeBtn);
+				var commentBtn = new FlxButton(slot.x + slot.width - 220, yOffset + 80, "💬 COMMENTS", function() {
+        	
+					
+        			openSubState(new CommentsSubState(item.id, item.name));
+				});
+				listGroup.add(commentBtn);
                 if(isFeatured) {
-                    var featText = new FlxText(slot.x + slot.width - 220, yOffset + 55, 150, "FEATURED", 12);
+                    var featText = new FlxText(slot.x + slot.width - 220, yOffset + 80, 150, "FEATURED", 12);
                     featText.setFormat(Paths.font("vcr.ttf"), 12, FlxColor.YELLOW, CENTER, OUTLINE, FlxColor.BLACK);
                     listGroup.add(featText);
                 }
             }
             else
             {
+                // ==========================================
+                // PLAYLIST MODE UI
+                // ==========================================
                 var listText = new FlxText(70, yOffset + 10, slot.width - 250, "WEEK: " + item.name.toUpperCase(), 22);
                 listText.setFormat(Paths.font("vcr.ttf"), 22, FlxColor.YELLOW, LEFT, OUTLINE, FlxColor.BLACK);
                 listGroup.add(listText);
@@ -241,12 +501,15 @@ function populateList():Void
                     }
                 }
 
-                var trackText = new FlxText(70, yOffset + 55, slot.width - 150, "TRACKS: " + songString, 12);
+                var trackText = new FlxText(70, yOffset + 60, slot.width - 150, "TRACKS: " + songString, 12);
                 trackText.color = 0xFFAAAAAA;
                 listGroup.add(trackText);
             }
 
-            var dlBtn = new FlxButton(slot.x + slot.width - 110, yOffset + 25, "GET", function() {
+            // ==========================================
+            // DOWNLOAD BUTTON
+            // ==========================================
+            var dlBtn = new FlxButton(slot.x + slot.width - 110, yOffset + 35, "GET", function() {
                 if (mode == "charts") {
                     downloadChart(item.id, item.name);
                 } else {
@@ -254,7 +517,7 @@ function populateList():Void
                     downloadPlaylist(item.name, playlist);
                 }
             });
-            dlBtn.setGraphicSize(80, 30);
+            dlBtn.setGraphicSize(80, 40);
             dlBtn.updateHitbox();
             listGroup.add(dlBtn);
         }
@@ -262,42 +525,54 @@ function populateList():Void
         // ==========================================
         // CALL TO ACTION (End of list message)
         // ==========================================
-        var endY = 130 + (dataList.length * 90) + 20;
+        var endY = 150 + (dataList.length * 110) + 20;
         var endOfListText = new FlxText(0, endY, FlxG.width, 
-            "--- End of the list ---\nInspired? Create and Publish your own chart!", 18);
+            "--- End of the list ---\nInspired? Create and Publish your own content!", 18);
         endOfListText.setFormat(Paths.font("vcr.ttf"), 18, 0xFF666666, CENTER);
         listGroup.add(endOfListText);
         
-        // Add some extra space at the very bottom
-        var spacer = new flixel.FlxSprite(0, endY + 80).makeGraphic(1, 1, 0x00000000);
+        var spacer = new FlxSprite(0, endY + 80).makeGraphic(1, 1, 0x00000000);
         listGroup.add(spacer);
 
-        // UPDATED: Adjust maxScroll to include the CTA and spacer
         maxScroll = -(endY + 100) + FlxG.height;
         if (maxScroll > 0) maxScroll = 0;
     }
-	function downloadPlaylist(playlistName:String, chartIDs:Array<String>)
-	{
-		// 1. Download all charts
-		for(id in chartIDs) {
-			var cleanID = StringTools.trim(id);
-			downloadChart(cleanID, cleanID); 
-		}
 
-		// 2. Create the Story Mode Week
-		backend.ChartInstaller.createWeekFile(playlistName, chartIDs);
+    function likeChart(id:String, index:Int) 
+    {
+        if(ClientPrefs.data.authToken == "") return;
 
-		// 3. Force Psych Engine to reload its WeekData
-		// This is the "Magic" Psych Engine function to refresh the menu
-		WeekData.reloadWeekFiles();
-		
-		FlxG.switchState(new states.StoryMenuState());
-	}
+        var http = new Http(OnlineManager.serverURL + "/like_chart");
+        http.setHeader("Content-Type", "application/json");
+        http.setPostData(Json.stringify({
+            username: ClientPrefs.data.username,
+            token: ClientPrefs.data.authToken,
+            chart_id: id
+        }));
+        
+        http.onData = function(res) {
+            var data = Json.parse(res);
+            dataList[index].likes = data.likes;
+            populateList(); // Refresh UI instantly
+        };
+        http.request(true);
+    }
+
+    function downloadPlaylist(playlistName:String, chartIDs:Array<String>)
+    {
+        for(id in chartIDs) {
+            var cleanID = StringTools.trim(id);
+            downloadChart(cleanID, cleanID); 
+        }
+
+        backend.ChartInstaller.createWeekFile(playlistName, chartIDs);
+        WeekData.reloadWeekFiles();
+        FlxG.switchState(new states.StoryMenuState());
+    }
 
     function downloadChart(id:String, name:String)
     {
         showProgress(name);
-
 
         var http = new Http(OnlineManager.serverURL + "/download_chart?id=" + id);
         http.onBytes = function(bytes:haxe.io.Bytes) {
@@ -313,7 +588,8 @@ function populateList():Void
         http.request();
     }
 
-    function showProgress(name:String) {
+    function showProgress(name:String) 
+    {
         progressBox = new FlxSpriteGroup();
         progressBox.add(new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK));
         var t = new FlxText(0,0,0,"DOWNLOADING: " + name, 32);

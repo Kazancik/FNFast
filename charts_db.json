@@ -1,0 +1,28 @@
+{
+    "circles": {
+        "id": "circles",
+        "name": "Circles",
+        "author": "test",
+        "suggested_rating": 506.27,
+        "manual_rating": 600.0,
+        "status": "verified",
+        "featured": false
+    },
+    "test": {
+        "id": "test",
+        "name": "Test",
+        "author": "Unknown",
+        "suggested_rating": 84.88,
+        "manual_rating": 80.0,
+        "status": "verified",
+        "featured": false
+    },
+    "end": {
+        "id": "end",
+        "name": "End",
+        "author": "test",
+        "suggested_rating": 7693.18,
+        "manual_rating": null,
+        "status": "pending"
+    }
+}

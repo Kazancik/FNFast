@@ -1,0 +1,10 @@
+{
+    "my-awesome-pack": {
+        "charts": [
+            "circles"
+        ],
+        "id": "my-awesome-pack",
+        "name": "My Awesome Pack",
+        "author": ""
+    }
+}

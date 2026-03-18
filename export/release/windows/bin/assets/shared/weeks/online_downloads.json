@@ -1,0 +1,34 @@
+{
+	"storyName": "Online Downloads",
+	"difficulties": "normal",
+	"hideFreeplay": false,
+	"weekBackground": "stage",
+	"startUnlocked": true,
+	"songs": [
+		[
+			"circles",
+			"face",
+			[
+				146,
+				113,
+				253
+			]
+		],
+		[
+			"test",
+			"face",
+			[
+				146,
+				113,
+				253
+			]
+		]
+	],
+	"weekCharacters": [
+		"bf",
+		"bf",
+		"gf"
+	],
+	"hideStoryMode": true,
+	"weekName": "Online Downloads"
+}

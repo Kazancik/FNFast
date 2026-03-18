@@ -1,0 +1,1326 @@
+{
+    "possible": [
+        {
+            "name": "death",
+            "rating": 89151.31477158092,
+            "min_cps_fc": 11843.050930083387,
+            "min_cps_win": 10515.6,
+            "skills": {
+                "speed": 13154.0,
+                "stamina": 5832.1998558870155,
+                "accuracy": 0.0,
+                "jack": 17.505116010952587
+            }
+        },
+        {
+            "name": "sparkle-of-death",
+            "rating": 10841.769266669371,
+            "min_cps_fc": 1513.3134160283525,
+            "min_cps_win": 1344.55,
+            "skills": {
+                "speed": 1646.0,
+                "stamina": 518.4798100726432,
+                "accuracy": 522.5,
+                "jack": 5.116675459599854
+            }
+        },
+        {
+            "name": "hell",
+            "rating": 1733.2653379009655,
+            "min_cps_fc": 204.23391304347825,
+            "min_cps_win": 182.2,
+            "skills": {
+                "speed": 179.0,
+                "stamina": 29.870445344129553,
+                "accuracy": 714.0,
+                "jack": 1.5945188414824043
+            }
+        },
+        {
+            "name": "circles",
+            "rating": 576.7986537898742,
+            "min_cps_fc": 80.43174757281554,
+            "min_cps_win": 69.08,
+            "skills": {
+                "speed": 89.0,
+                "stamina": 31.27275387767047,
+                "accuracy": 0.0,
+                "jack": 2.2358794263974247
+            }
+        },
+        {
+            "name": "scratch-post-easy",
+            "rating": 140.09844559585494,
+            "min_cps_fc": 17.337173579109063,
+            "min_cps_win": 14.600000000000001,
+            "skills": {
+                "speed": 19.0,
+                "stamina": 11.235751295336788,
+                "accuracy": 0.0,
+                "jack": 0.05181347150259068
+            }
+        },
+        {
+            "name": "scratch-post-hard",
+            "rating": 140.09844559585494,
+            "min_cps_fc": 17.337173579109063,
+            "min_cps_win": 14.600000000000001,
+            "skills": {
+                "speed": 19.0,
+                "stamina": 11.235751295336788,
+                "accuracy": 0.0,
+                "jack": 0.05181347150259068
+            }
+        },
+        {
+            "name": "scratch-post",
+            "rating": 140.09844559585494,
+            "min_cps_fc": 17.337173579109063,
+            "min_cps_win": 14.600000000000001,
+            "skills": {
+                "speed": 19.0,
+                "stamina": 11.235751295336788,
+                "accuracy": 0.0,
+                "jack": 0.05181347150259068
+            }
+        },
+        {
+            "name": "beathoven-easy",
+            "rating": 133.26605504587155,
+            "min_cps_fc": 18.218,
+            "min_cps_win": 13.36,
+            "skills": {
+                "speed": 20.0,
+                "stamina": 8.247706422018348,
+                "accuracy": 0.0,
+                "jack": 0.09174311926605505
+            }
+        },
+        {
+            "name": "beathoven-hard",
+            "rating": 133.26605504587155,
+            "min_cps_fc": 18.218,
+            "min_cps_win": 13.36,
+            "skills": {
+                "speed": 20.0,
+                "stamina": 8.247706422018348,
+                "accuracy": 0.0,
+                "jack": 0.09174311926605505
+            }
+        },
+        {
+            "name": "beathoven",
+            "rating": 133.26605504587155,
+            "min_cps_fc": 18.218,
+            "min_cps_win": 13.36,
+            "skills": {
+                "speed": 20.0,
+                "stamina": 8.247706422018348,
+                "accuracy": 0.0,
+                "jack": 0.09174311926605505
+            }
+        },
+        {
+            "name": "smash",
+            "rating": 119.98963730569949,
+            "min_cps_fc": 16.43253012048193,
+            "min_cps_win": 9.920000000000002,
+            "skills": {
+                "speed": 18.0,
+                "stamina": 7.186528497409326,
+                "accuracy": 0.0,
+                "jack": 0.4145077720207254
+            }
+        },
+        {
+            "name": "2hot",
+            "rating": 119.5605749486653,
+            "min_cps_fc": 16.459733333333332,
+            "min_cps_win": 10.840000000000002,
+            "skills": {
+                "speed": 18.0,
+                "stamina": 7.3901437371663246,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "2hot-hard",
+            "rating": 119.40695652173913,
+            "min_cps_fc": 15.55109170305677,
+            "min_cps_win": 11.76,
+            "skills": {
+                "speed": 17.0,
+                "stamina": 8.601739130434783,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "2hot-easy",
+            "rating": 114.85714285714286,
+            "min_cps_fc": 16.456209150326796,
+            "min_cps_win": 10.040000000000001,
+            "skills": {
+                "speed": 18.0,
+                "stamina": 6.137755102040816,
+                "accuracy": 0.0,
+                "jack": 0.1020408163265306
+            }
+        },
+        {
+            "name": "meowgen-easy",
+            "rating": 111.81056466302367,
+            "min_cps_fc": 14.642384105960264,
+            "min_cps_win": 10.32,
+            "skills": {
+                "speed": 16.0,
+                "stamina": 7.734061930783242,
+                "accuracy": 0.0,
+                "jack": 0.29143897996357016
+            }
+        },
+        {
+            "name": "meowgen-hard",
+            "rating": 111.81056466302367,
+            "min_cps_fc": 14.642384105960264,
+            "min_cps_win": 10.32,
+            "skills": {
+                "speed": 16.0,
+                "stamina": 7.734061930783242,
+                "accuracy": 0.0,
+                "jack": 0.29143897996357016
+            }
+        },
+        {
+            "name": "meowgen",
+            "rating": 111.81056466302367,
+            "min_cps_fc": 14.642384105960264,
+            "min_cps_win": 10.32,
+            "skills": {
+                "speed": 16.0,
+                "stamina": 7.734061930783242,
+                "accuracy": 0.0,
+                "jack": 0.29143897996357016
+            }
+        },
+        {
+            "name": "stress-hard",
+            "rating": 111.62150537634409,
+            "min_cps_fc": 14.6325,
+            "min_cps_win": 12.4,
+            "skills": {
+                "speed": 16.0,
+                "stamina": 7.776344086021505,
+                "accuracy": 0.0,
+                "jack": 0.17204301075268819
+            }
+        },
+        {
+            "name": "milf-hard",
+            "rating": 106.225,
+            "min_cps_fc": 14.625352112676056,
+            "min_cps_win": 11.280000000000001,
+            "skills": {
+                "speed": 16.0,
+                "stamina": 6.55625,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "nyaw-easy",
+            "rating": 105.72923076923077,
+            "min_cps_fc": 12.85440313111546,
+            "min_cps_win": 10.32,
+            "skills": {
+                "speed": 14.0,
+                "stamina": 8.932307692307692,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "nyaw-hard",
+            "rating": 105.72923076923077,
+            "min_cps_fc": 12.85440313111546,
+            "min_cps_win": 10.32,
+            "skills": {
+                "speed": 14.0,
+                "stamina": 8.932307692307692,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "nyaw",
+            "rating": 105.72923076923077,
+            "min_cps_fc": 12.85440313111546,
+            "min_cps_win": 10.32,
+            "skills": {
+                "speed": 14.0,
+                "stamina": 8.932307692307692,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "high-hard",
+            "rating": 103.78405315614617,
+            "min_cps_fc": 13.74672131147541,
+            "min_cps_win": 9.24,
+            "skills": {
+                "speed": 15.0,
+                "stamina": 6.946843853820598,
+                "accuracy": 0.0,
+                "jack": 0.33222591362126247
+            }
+        },
+        {
+            "name": "test",
+            "rating": 101.84848484848484,
+            "min_cps_fc": 12.853846153846153,
+            "min_cps_win": 9.840000000000002,
+            "skills": {
+                "speed": 14.0,
+                "stamina": 6.996212121212121,
+                "accuracy": 0.0,
+                "jack": 1.2878787878787878
+            }
+        },
+        {
+            "name": "hairball-easy",
+            "rating": 92.84830339321357,
+            "min_cps_fc": 11.910504201680673,
+            "min_cps_win": 9.48,
+            "skills": {
+                "speed": 13.0,
+                "stamina": 6.962075848303393,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "hairball-hard",
+            "rating": 92.84830339321357,
+            "min_cps_fc": 11.910504201680673,
+            "min_cps_win": 9.48,
+            "skills": {
+                "speed": 13.0,
+                "stamina": 6.962075848303393,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "hairball",
+            "rating": 92.84830339321357,
+            "min_cps_fc": 11.910504201680673,
+            "min_cps_win": 9.48,
+            "skills": {
+                "speed": 13.0,
+                "stamina": 6.962075848303393,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "ugh-hard",
+            "rating": 92.7925925925926,
+            "min_cps_fc": 11.915139442231077,
+            "min_cps_win": 9.28,
+            "skills": {
+                "speed": 13.0,
+                "stamina": 6.781481481481482,
+                "accuracy": 0.0,
+                "jack": 0.22222222222222224
+            }
+        },
+        {
+            "name": "picospeaker",
+            "rating": 91.01782178217823,
+            "min_cps_fc": 11.0,
+            "min_cps_win": 7.920000000000001,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 5.25940594059406,
+                "accuracy": 0.0,
+                "jack": 3.326732673267327
+            }
+        },
+        {
+            "name": "fresh-hard",
+            "rating": 89.9748427672956,
+            "min_cps_fc": 12.835555555555555,
+            "min_cps_win": 7.840000000000001,
+            "skills": {
+                "speed": 14.0,
+                "stamina": 4.9937106918239,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "dad-battle-hard",
+            "rating": 85.91358024691358,
+            "min_cps_fc": 11.91891891891892,
+            "min_cps_win": 6.0,
+            "skills": {
+                "speed": 13.0,
+                "stamina": 5.228395061728395,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "stress",
+            "rating": 85.41298701298702,
+            "min_cps_fc": 11.034756097560976,
+            "min_cps_win": 9.200000000000001,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 6.353246753246753,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "eggnog-hard",
+            "rating": 85.15107913669064,
+            "min_cps_fc": 11.018039215686276,
+            "min_cps_win": 8.68,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 6.287769784172662,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "satin-panties-hard",
+            "rating": 84.27118644067797,
+            "min_cps_fc": 11.030243902439025,
+            "min_cps_win": 5.920000000000001,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 5.36864406779661,
+                "accuracy": 0.0,
+                "jack": 0.9322033898305084
+            }
+        },
+        {
+            "name": "dad-battle",
+            "rating": 83.40579710144928,
+            "min_cps_fc": 11.91732283464567,
+            "min_cps_win": 6.0,
+            "skills": {
+                "speed": 13.0,
+                "stamina": 4.601449275362318,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "blammed-hard",
+            "rating": 83.25490196078431,
+            "min_cps_fc": 11.00923076923077,
+            "min_cps_win": 8.24,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 5.519607843137255,
+                "accuracy": 0.0,
+                "jack": 0.39215686274509803
+            }
+        },
+        {
+            "name": "lit-up-hard",
+            "rating": 83.01072386058982,
+            "min_cps_fc": 10.110734463276836,
+            "min_cps_win": 8.28,
+            "skills": {
+                "speed": 11.0,
+                "stamina": 7.002680965147453,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "wocky-easy",
+            "rating": 82.66666666666667,
+            "min_cps_fc": 11.0,
+            "min_cps_win": 6.08,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 5.666666666666667,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "wocky-hard",
+            "rating": 82.66666666666667,
+            "min_cps_fc": 11.0,
+            "min_cps_win": 6.08,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 5.666666666666667,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "wocky",
+            "rating": 82.66666666666667,
+            "min_cps_fc": 11.0,
+            "min_cps_win": 6.08,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 5.666666666666667,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "high",
+            "rating": 81.80257510729614,
+            "min_cps_fc": 11.053260869565218,
+            "min_cps_win": 7.040000000000001,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 5.450643776824034,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "guns-hard",
+            "rating": 80.53881278538813,
+            "min_cps_fc": 9.20045766590389,
+            "min_cps_win": 7.120000000000001,
+            "skills": {
+                "speed": 10.0,
+                "stamina": 7.292237442922374,
+                "accuracy": 0.0,
+                "jack": 0.45662100456621
+            }
+        },
+        {
+            "name": "lit-up",
+            "rating": 80.32923076923078,
+            "min_cps_fc": 10.124137931034483,
+            "min_cps_win": 8.28,
+            "skills": {
+                "speed": 11.0,
+                "stamina": 6.332307692307692,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "milf",
+            "rating": 80.08264462809917,
+            "min_cps_fc": 11.026168224299067,
+            "min_cps_win": 6.800000000000001,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 5.020661157024794,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "flatzone-easy",
+            "rating": 79.27722772277228,
+            "min_cps_fc": 10.10066225165563,
+            "min_cps_win": 6.920000000000001,
+            "skills": {
+                "speed": 11.0,
+                "stamina": 5.871287128712871,
+                "accuracy": 0.0,
+                "jack": 0.264026402640264
+            }
+        },
+        {
+            "name": "flatzone-hard",
+            "rating": 79.27722772277228,
+            "min_cps_fc": 10.10066225165563,
+            "min_cps_win": 6.920000000000001,
+            "skills": {
+                "speed": 11.0,
+                "stamina": 5.871287128712871,
+                "accuracy": 0.0,
+                "jack": 0.264026402640264
+            }
+        },
+        {
+            "name": "flatzone",
+            "rating": 79.27722772277228,
+            "min_cps_fc": 10.10066225165563,
+            "min_cps_win": 6.920000000000001,
+            "skills": {
+                "speed": 11.0,
+                "stamina": 5.871287128712871,
+                "accuracy": 0.0,
+                "jack": 0.264026402640264
+            }
+        },
+        {
+            "name": "ugh",
+            "rating": 79.2655601659751,
+            "min_cps_fc": 10.117117117117118,
+            "min_cps_win": 7.88,
+            "skills": {
+                "speed": 11.0,
+                "stamina": 6.066390041493776,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "milf-easy",
+            "rating": 78.72636815920397,
+            "min_cps_fc": 11.035087719298247,
+            "min_cps_win": 6.800000000000001,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 4.532338308457711,
+                "accuracy": 0.0,
+                "jack": 0.1990049751243781
+            }
+        },
+        {
+            "name": "ridge",
+            "rating": 78.56179775280899,
+            "min_cps_fc": 11.06969696969697,
+            "min_cps_win": 5.760000000000001,
+            "skills": {
+                "speed": 12.0,
+                "stamina": 4.640449438202247,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "lit-up-easy",
+            "rating": 78.37878787878788,
+            "min_cps_fc": 10.114634146341464,
+            "min_cps_win": 8.200000000000001,
+            "skills": {
+                "speed": 11.0,
+                "stamina": 5.84469696969697,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "darnell-hard",
+            "rating": 74.88022284122563,
+            "min_cps_fc": 9.2,
+            "min_cps_win": 7.720000000000001,
+            "skills": {
+                "speed": 10.0,
+                "stamina": 6.220055710306407,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "pico-hard",
+            "rating": 74.3012048192771,
+            "min_cps_fc": 10.104938271604938,
+            "min_cps_win": 4.760000000000001,
+            "skills": {
+                "speed": 11.0,
+                "stamina": 4.825301204819277,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "south-hard",
+            "rating": 71.80571428571429,
+            "min_cps_fc": 9.203488372093023,
+            "min_cps_win": 6.120000000000001,
+            "skills": {
+                "speed": 10.0,
+                "stamina": 5.28,
+                "accuracy": 0.0,
+                "jack": 0.22857142857142856
+            }
+        },
+        {
+            "name": "eggnog",
+            "rating": 71.06550218340611,
+            "min_cps_fc": 9.218095238095238,
+            "min_cps_win": 7.08,
+            "skills": {
+                "speed": 10.0,
+                "stamina": 5.2663755458515285,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "guns",
+            "rating": 70.65079365079364,
+            "min_cps_fc": 8.301063829787234,
+            "min_cps_win": 6.0,
+            "skills": {
+                "speed": 9.0,
+                "stamina": 6.412698412698413,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "roses-hard",
+            "rating": 70.11587982832617,
+            "min_cps_fc": 8.299999999999999,
+            "min_cps_win": 7.2,
+            "skills": {
+                "speed": 9.0,
+                "stamina": 5.957081545064377,
+                "accuracy": 0.0,
+                "jack": 0.4291845493562232
+            }
+        },
+        {
+            "name": "senpai-hard",
+            "rating": 68.56074766355141,
+            "min_cps_fc": 9.237777777777778,
+            "min_cps_win": 5.84,
+            "skills": {
+                "speed": 10.0,
+                "stamina": 4.640186915887851,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "high-easy",
+            "rating": 68.07407407407408,
+            "min_cps_fc": 9.271942446043166,
+            "min_cps_win": 5.16,
+            "skills": {
+                "speed": 10.0,
+                "stamina": 4.518518518518518,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "blammed",
+            "rating": 65.85507246376811,
+            "min_cps_fc": 9.210687022900764,
+            "min_cps_win": 5.720000000000001,
+            "skills": {
+                "speed": 10.0,
+                "stamina": 3.963768115942029,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "south",
+            "rating": 65.69364161849711,
+            "min_cps_fc": 8.303529411764705,
+            "min_cps_win": 5.68,
+            "skills": {
+                "speed": 9.0,
+                "stamina": 5.173410404624278,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "spookeez-hard",
+            "rating": 65.21674876847291,
+            "min_cps_fc": 8.310362694300517,
+            "min_cps_win": 5.28,
+            "skills": {
+                "speed": 9.0,
+                "stamina": 4.980295566502463,
+                "accuracy": 0.0,
+                "jack": 0.09852216748768473
+            }
+        },
+        {
+            "name": "eggnog-easy",
+            "rating": 63.12631578947368,
+            "min_cps_fc": 8.317142857142857,
+            "min_cps_win": 6.28,
+            "skills": {
+                "speed": 9.0,
+                "stamina": 4.531578947368421,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "ugh-easy",
+            "rating": 62.39354838709677,
+            "min_cps_fc": 8.327941176470588,
+            "min_cps_win": 6.08,
+            "skills": {
+                "speed": 9.0,
+                "stamina": 4.348387096774194,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "winter-horrorland-hard",
+            "rating": 62.16746411483254,
+            "min_cps_fc": 8.317708333333332,
+            "min_cps_win": 4.24,
+            "skills": {
+                "speed": 9.0,
+                "stamina": 4.076555023923445,
+                "accuracy": 0.0,
+                "jack": 0.28708133971291866
+            }
+        },
+        {
+            "name": "darnell",
+            "rating": 60.883116883116884,
+            "min_cps_fc": 7.4,
+            "min_cps_win": 5.16,
+            "skills": {
+                "speed": 8.0,
+                "stamina": 5.220779220779221,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "monster-hard",
+            "rating": 60.58490566037736,
+            "min_cps_fc": 8.318556701030927,
+            "min_cps_win": 4.08,
+            "skills": {
+                "speed": 9.0,
+                "stamina": 3.8962264150943398,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "cocoa-hard",
+            "rating": 60.12444444444445,
+            "min_cps_fc": 7.400892857142857,
+            "min_cps_win": 5.640000000000001,
+            "skills": {
+                "speed": 8.0,
+                "stamina": 5.0311111111111115,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "monster",
+            "rating": 59.24742268041237,
+            "min_cps_fc": 8.303141361256545,
+            "min_cps_win": 3.9600000000000004,
+            "skills": {
+                "speed": 9.0,
+                "stamina": 3.5618556701030926,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "spookeez",
+            "rating": 58.60109289617486,
+            "min_cps_fc": 7.4115606936416185,
+            "min_cps_win": 4.800000000000001,
+            "skills": {
+                "speed": 8.0,
+                "stamina": 4.5683060109289615,
+                "accuracy": 0.0,
+                "jack": 0.1092896174863388
+            }
+        },
+        {
+            "name": "thorns-hard",
+            "rating": 58.148014440433215,
+            "min_cps_fc": 6.5,
+            "min_cps_win": 5.6000000000000005,
+            "skills": {
+                "speed": 7.0,
+                "stamina": 5.787003610108303,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "satin-panties",
+            "rating": 57.62105263157894,
+            "min_cps_fc": 7.434567901234568,
+            "min_cps_win": 4.720000000000001,
+            "skills": {
+                "speed": 8.0,
+                "stamina": 4.247368421052632,
+                "accuracy": 0.0,
+                "jack": 0.21052631578947367
+            }
+        },
+        {
+            "name": "stress-easy",
+            "rating": 56.50996015936255,
+            "min_cps_fc": 7.442512077294686,
+            "min_cps_win": 5.84,
+            "skills": {
+                "speed": 8.0,
+                "stamina": 4.127490039840637,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "south-easy",
+            "rating": 55.46456692913386,
+            "min_cps_fc": 7.4032,
+            "min_cps_win": 4.36,
+            "skills": {
+                "speed": 8.0,
+                "stamina": 3.8661417322834644,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "philly-nice-hard",
+            "rating": 55.4304932735426,
+            "min_cps_fc": 6.5,
+            "min_cps_win": 5.24,
+            "skills": {
+                "speed": 7.0,
+                "stamina": 5.1076233183856505,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "senpai",
+            "rating": 55.376344086021504,
+            "min_cps_fc": 7.431055900621118,
+            "min_cps_win": 4.24,
+            "skills": {
+                "speed": 8.0,
+                "stamina": 3.8440860215053765,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "pico",
+            "rating": 54.752,
+            "min_cps_fc": 7.401612903225806,
+            "min_cps_win": 3.44,
+            "skills": {
+                "speed": 8.0,
+                "stamina": 3.688,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "dad-battle-easy",
+            "rating": 54.54545454545455,
+            "min_cps_fc": 7.413592233009709,
+            "min_cps_win": 3.6,
+            "skills": {
+                "speed": 8.0,
+                "stamina": 3.6363636363636362,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "roses",
+            "rating": 53.52272727272727,
+            "min_cps_fc": 6.5,
+            "min_cps_win": 4.6000000000000005,
+            "skills": {
+                "speed": 7.0,
+                "stamina": 4.4602272727272725,
+                "accuracy": 0.0,
+                "jack": 0.2272727272727273
+            }
+        },
+        {
+            "name": "senpai-easy",
+            "rating": 53.291139240506325,
+            "min_cps_fc": 7.434074074074074,
+            "min_cps_win": 3.6,
+            "skills": {
+                "speed": 8.0,
+                "stamina": 3.3227848101265822,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "guns-easy",
+            "rating": 52.047210300429185,
+            "min_cps_fc": 6.501731601731602,
+            "min_cps_win": 3.9600000000000004,
+            "skills": {
+                "speed": 7.0,
+                "stamina": 4.261802575107296,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "spookeez-easy",
+            "rating": 50.08108108108108,
+            "min_cps_fc": 6.508450704225352,
+            "min_cps_win": 3.84,
+            "skills": {
+                "speed": 7.0,
+                "stamina": 3.77027027027027,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "darnell-easy",
+            "rating": 49.625,
+            "min_cps_fc": 5.6000000000000005,
+            "min_cps_win": 4.6000000000000005,
+            "skills": {
+                "speed": 6.0,
+                "stamina": 4.90625,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "thorns",
+            "rating": 47.41293532338308,
+            "min_cps_fc": 5.6000000000000005,
+            "min_cps_win": 4.24,
+            "skills": {
+                "speed": 6.0,
+                "stamina": 4.353233830845771,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "tutorial-hard",
+            "rating": 46.916666666666664,
+            "min_cps_fc": 6.5,
+            "min_cps_win": 3.7600000000000002,
+            "skills": {
+                "speed": 7.0,
+                "stamina": 2.9791666666666665,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "winter-horrorland-easy",
+            "rating": 46.36551724137931,
+            "min_cps_fc": 6.521374045801527,
+            "min_cps_win": 2.9600000000000004,
+            "skills": {
+                "speed": 7.0,
+                "stamina": 2.8413793103448275,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "philly-nice",
+            "rating": 44.23376623376623,
+            "min_cps_fc": 5.6000000000000005,
+            "min_cps_win": 3.6,
+            "skills": {
+                "speed": 6.0,
+                "stamina": 3.5584415584415585,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "cocoa",
+            "rating": 44.11464968152866,
+            "min_cps_fc": 5.601282051282052,
+            "min_cps_win": 3.48,
+            "skills": {
+                "speed": 6.0,
+                "stamina": 3.5286624203821657,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "fresh",
+            "rating": 43.47899159663866,
+            "min_cps_fc": 5.6000000000000005,
+            "min_cps_win": 3.12,
+            "skills": {
+                "speed": 6.0,
+                "stamina": 3.369747899159664,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "satin-panties-easy",
+            "rating": 43.0958904109589,
+            "min_cps_fc": 5.63739837398374,
+            "min_cps_win": 3.28,
+            "skills": {
+                "speed": 6.0,
+                "stamina": 3.2739726027397262,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "thorns-easy",
+            "rating": 42.93617021276596,
+            "min_cps_fc": 5.6000000000000005,
+            "min_cps_win": 3.24,
+            "skills": {
+                "speed": 6.0,
+                "stamina": 3.234042553191489,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "winter-horrorland",
+            "rating": 42.622754491017965,
+            "min_cps_fc": 5.619736842105263,
+            "min_cps_win": 3.24,
+            "skills": {
+                "speed": 6.0,
+                "stamina": 3.155688622754491,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "blammed-easy",
+            "rating": 41.695238095238096,
+            "min_cps_fc": 5.6079207920792085,
+            "min_cps_win": 3.24,
+            "skills": {
+                "speed": 6.0,
+                "stamina": 2.9238095238095236,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "roses-easy",
+            "rating": 37.64957264957265,
+            "min_cps_fc": 4.7,
+            "min_cps_win": 2.8800000000000003,
+            "skills": {
+                "speed": 5.0,
+                "stamina": 3.1623931623931623,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "monster-easy",
+            "rating": 37.141176470588235,
+            "min_cps_fc": 4.703592814371257,
+            "min_cps_win": 2.9600000000000004,
+            "skills": {
+                "speed": 5.0,
+                "stamina": 3.0352941176470587,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "fresh-easy",
+            "rating": 36.23232323232323,
+            "min_cps_fc": 4.7,
+            "min_cps_win": 2.8000000000000003,
+            "skills": {
+                "speed": 5.0,
+                "stamina": 2.808080808080808,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "pico-easy",
+            "rating": 36.14285714285714,
+            "min_cps_fc": 4.702409638554217,
+            "min_cps_win": 2.52,
+            "skills": {
+                "speed": 5.0,
+                "stamina": 2.7857142857142856,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "bopeebo-hard",
+            "rating": 30.903225806451616,
+            "min_cps_fc": 3.8000000000000003,
+            "min_cps_win": 1.9600000000000002,
+            "skills": {
+                "speed": 4.0,
+                "stamina": 2.2419354838709675,
+                "accuracy": 0.0,
+                "jack": 0.6451612903225806
+            }
+        },
+        {
+            "name": "cocoa-easy",
+            "rating": 30.823529411764707,
+            "min_cps_fc": 3.801694915254237,
+            "min_cps_win": 2.64,
+            "skills": {
+                "speed": 4.0,
+                "stamina": 2.7058823529411766,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "bopeebo",
+            "rating": 30.440677966101696,
+            "min_cps_fc": 3.8000000000000003,
+            "min_cps_win": 1.8800000000000001,
+            "skills": {
+                "speed": 4.0,
+                "stamina": 2.1016949152542375,
+                "accuracy": 0.0,
+                "jack": 0.6779661016949152
+            }
+        },
+        {
+            "name": "philly-nice-easy",
+            "rating": 29.291666666666664,
+            "min_cps_fc": 3.8000000000000003,
+            "min_cps_win": 2.04,
+            "skills": {
+                "speed": 4.0,
+                "stamina": 2.3229166666666665,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "bopeebo-easy",
+            "rating": 28.363636363636363,
+            "min_cps_fc": 3.8000000000000003,
+            "min_cps_win": 1.8,
+            "skills": {
+                "speed": 4.0,
+                "stamina": 2.090909090909091,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "tutorial-easy",
+            "rating": 26.5,
+            "min_cps_fc": 3.8000000000000003,
+            "min_cps_win": 1.56,
+            "skills": {
+                "speed": 4.0,
+                "stamina": 1.625,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "tutorial",
+            "rating": 26.5,
+            "min_cps_fc": 3.8000000000000003,
+            "min_cps_win": 1.56,
+            "skills": {
+                "speed": 4.0,
+                "stamina": 1.625,
+                "accuracy": 0.0,
+                "jack": 0.0
+            }
+        },
+        {
+            "name": "blazin-easy",
+            "rating": 0.0,
+            "min_cps_fc": 0.0,
+            "min_cps_win": 0.0,
+            "skills": {
+                "speed": 0,
+                "stamina": 0,
+                "accuracy": 0.0,
+                "jack": 0
+            }
+        },
+        {
+            "name": "blazin-hard",
+            "rating": 0.0,
+            "min_cps_fc": 0.0,
+            "min_cps_win": 0.0,
+            "skills": {
+                "speed": 0,
+                "stamina": 0,
+                "accuracy": 0.0,
+                "jack": 0
+            }
+        },
+        {
+            "name": "blazin",
+            "rating": 0.0,
+            "min_cps_fc": 0.0,
+            "min_cps_win": 0.0,
+            "skills": {
+                "speed": 0,
+                "stamina": 0,
+                "accuracy": 0.0,
+                "jack": 0
+            }
+        }
+    ],
+    "impossible": [
+        {
+            "name": "death",
+            "rating": 89151.31477158092,
+            "min_cps_fc": 11843.050930083387,
+            "min_cps_win": 10515.6,
+            "skills": {
+                "speed": 13154.0,
+                "stamina": 5832.1998558870155,
+                "accuracy": 0.0,
+                "jack": 17.505116010952587
+            }
+        },
+        {
+            "name": "sparkle-of-death",
+            "rating": 10841.769266669371,
+            "min_cps_fc": 1513.3134160283525,
+            "min_cps_win": 1344.55,
+            "skills": {
+                "speed": 1646.0,
+                "stamina": 518.4798100726432,
+                "accuracy": 522.5,
+                "jack": 5.116675459599854
+            }
+        },
+        {
+            "name": "hell",
+            "rating": 1733.2653379009655,
+            "min_cps_fc": 204.23391304347825,
+            "min_cps_win": 182.2,
+            "skills": {
+                "speed": 179.0,
+                "stamina": 29.870445344129553,
+                "accuracy": 714.0,
+                "jack": 1.5945188414824043
+            }
+        }
+    ]
+}

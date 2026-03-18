@@ -1,0 +1,54 @@
+{
+	"songs": [
+		[
+			"noobish",
+			"face",
+			[
+				146,
+				113,
+				253
+			]
+		],
+		[
+			"fueled by anger",
+			"face",
+			[
+				146,
+				113,
+				253
+			]
+		],
+		[
+			"circiling",
+			"face",
+			[
+				146,
+				113,
+				253
+			]
+		],
+		[
+			"sparkle of death",
+			"face",
+			[
+				146,
+				113,
+				253
+			]
+		]
+	],
+	"hiddenUntilUnlocked": false,
+	"hideFreeplay": false,
+	"weekBackground": "stage",
+	"difficulties": "hard",
+	"weekCharacters": [
+		"",
+		"bf",
+		""
+	],
+	"storyName": "end",
+	"weekName": "end.",
+	"hideStoryMode": false,
+	"weekBefore": "tutorial",
+	"startUnlocked": true
+}

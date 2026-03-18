@@ -38,7 +38,7 @@ charts/
 assetsfolder/
 backups/
 *.py
-
+password.txt
 # Local User Data
 assets/shared/materials/
 temp/

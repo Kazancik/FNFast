@@ -1,0 +1,10 @@
+{
+	"lua": [
+		"scripts/extra keys hscript.lua",
+		"scripts/Set Key Count.lua"
+	],
+	"sounds": [],
+	"json": [],
+	"assets": [],
+	"type": "mixed"
+}

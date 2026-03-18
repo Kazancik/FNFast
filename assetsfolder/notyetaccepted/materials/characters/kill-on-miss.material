@@ -1,0 +1,9 @@
+{
+	"lua": [
+		"scripts/kill-on-miss.lua"
+	],
+	"sounds": [],
+	"json": [],
+	"assets": [],
+	"type": "mixed"
+}

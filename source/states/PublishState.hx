@@ -16,6 +16,7 @@ import backend.ChartMeta;
 import backend.ChartMetaReader;
 import backend.ChartPublisher;
 import backend.ChartUtil;
+import backend.ClientPrefs;
 
 class PublishState extends FlxState
 {
@@ -24,6 +25,7 @@ class PublishState extends FlxState
     
     var scInstInput:FlxUIInputText; 
     var scVoicesInput:FlxUIInputText; 
+    var descInput:FlxUIInputText; // NEW: Description Input
 
     var fileRef:FileReference;
     var chartPath:String = "";
@@ -37,41 +39,63 @@ class PublishState extends FlxState
         super.create();
         FlxG.mouse.visible = true;
 
-        var title = new FlxText(0,20,0,"Publish Chart (Cloud Stream)",32);
-        title.setFormat(Paths.font("vcr.ttf"),32,FlxColor.WHITE,CENTER,OUTLINE,FlxColor.BLACK);
-        title.screenCenter(X);
+        // 1. Dark Background
+        add(new flixel.FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF121212));
+
+        // 2. Form Container Box
+        var box = new flixel.FlxSprite().makeGraphic(550, 480, 0xFF1F1F1F);
+        box.screenCenter();
+        add(box);
+
+        var title = new FlxText(0, box.y + 15, FlxG.width, "PUBLISH CHART", 28);
+        title.setFormat(Paths.font("vcr.ttf"), 28, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
         add(title);
 
-        infoText = new FlxText(0,70,0,"Select JSON and paste SoundCloud links",18);
-        infoText.setFormat(null,18,FlxColor.WHITE,CENTER);
-        infoText.screenCenter(X);
+        infoText = new FlxText(0, box.y + 60, FlxG.width, "Provide links and select your JSON.", 16);
+        infoText.setFormat(Paths.font("vcr.ttf"), 16, 0xFFAAAAAA, CENTER);
         add(infoText);
 
-        function createLabel(y:Float, str:String) {
-            var t = new FlxText(FlxG.width/2 - 200, y, 400, str, 14);
+        // --- INPUT FIELDS ---
+        function addLabel(y:Float, str:String) {
+            var t = new FlxText(box.x + 50, y, 450, str, 14);
+            t.color = 0xFF888888;
             add(t);
         }
 
-        createLabel(110, "SoundCloud INSTRUMENTAL URL:");
-        scInstInput = new FlxUIInputText(FlxG.width/2 - 200, 130, 400, "https://soundcloud.com/", 14);
+        addLabel(box.y + 100, "SOUNDCLOUD INSTRUMENTAL URL (Required):");
+        scInstInput = new FlxUIInputText(box.x + 50, box.y + 120, 450, "https://soundcloud.com/", 14);
         add(scInstInput);
 
-        createLabel(170, "SoundCloud VOICES URL (Optional):");
-        scVoicesInput = new FlxUIInputText(FlxG.width/2 - 200, 190, 400, "https://soundcloud.com/", 14);
+        addLabel(box.y + 160, "SOUNDCLOUD VOICES URL (Optional):");
+        scVoicesInput = new FlxUIInputText(box.x + 50, box.y + 180, 450, "https://soundcloud.com/", 14);
         add(scVoicesInput);
 
-        add(makeButton(250, "1. SELECT CHART JSON", selectChart));
-        var pubBtn = makeButton(340, "PUBLISH TO FNFAST", publishChart);
+        addLabel(box.y + 220, "CHART DESCRIPTION / CREDITS:");
+        descInput = new FlxUIInputText(box.x + 50, box.y + 240, 450, "A cool chart by...", 14);
+        add(descInput);
+
+        // --- BUTTONS ---
+        var selectBtn = new FlxButton(0, box.y + 300, "SELECT CHART JSON", selectChart);
+        selectBtn.setGraphicSize(200, 30);
+        selectBtn.updateHitbox();
+        selectBtn.screenCenter(X);
+        add(selectBtn);
+
+        metaText = new FlxText(0, box.y + 345, FlxG.width, "No Chart Selected", 14);
+        metaText.setFormat(Paths.font("vcr.ttf"), 14, FlxColor.YELLOW, CENTER, OUTLINE, FlxColor.BLACK);
+        add(metaText);
+
+        var pubBtn = new FlxButton(0, box.y + 400, "PUBLISH TO FNFAST", publishChart);
+        pubBtn.setGraphicSize(250, 40);
+        pubBtn.updateHitbox();
         pubBtn.color = FlxColor.LIME;
+        pubBtn.label.color = FlxColor.BLACK;
+        pubBtn.screenCenter(X);
         add(pubBtn);
 
-        add(new FlxButton(10, 10, "BACK", function(){
+        add(new FlxButton(20, FlxG.height - 50, "BACK", function(){
             MusicBeatState.switchState(new CreatorMenuState());
         }));
-
-        metaText = new FlxText(0, 290, FlxG.width, "No Chart Selected", 16);
-        metaText.alignment = CENTER;
-        add(metaText);
     }
 
     override public function update(elapsed:Float)
@@ -86,16 +110,14 @@ class PublishState extends FlxState
             {
                 if (scInstInput.hasFocus) scInstInput.text = clipboardText;
                 if (scVoicesInput.hasFocus) scVoicesInput.text = clipboardText;
+                if (descInput.hasFocus) descInput.text = clipboardText;
             }
         }
     }
 
-    function makeButton(y:Float, label:String, cb:Void->Void):FlxButton
-    {
-        var b = new FlxButton(0, y, label, cb);
-        b.screenCenter(X);
-        return b;
-    }
+    // =====================================================
+    // FILE PICKER LOGIC
+    // =====================================================
 
     function selectChart() {
         selecting = "chart";
@@ -121,20 +143,29 @@ class PublishState extends FlxState
         loadChart(chartPath);
     }
 
-    function onFileError(e:IOErrorEvent) { infoText.text = "File Dialog Error."; }
+    function onFileError(e:IOErrorEvent) { infoText.text = "File Dialog Error."; infoText.color = FlxColor.RED; }
 
     function loadChart(path:String) {
         meta = ChartMetaReader.read(path);
         songName = ChartUtil.normalizeSong(meta.song);
-        metaText.text = "CHART LOADED: " + meta.song.toUpperCase();
+        metaText.text = "READY: " + meta.song.toUpperCase() + " (" + meta.bpm + " BPM)";
+        metaText.color = FlxColor.CYAN;
+        infoText.text = "Chart mapped successfully.";
+        infoText.color = FlxColor.LIME;
     }
 
-function publishChart(){
-    if (backend.ClientPrefs.data.authToken == null || backend.ClientPrefs.data.authToken == ""){
-        infoText.text = "You must be logged in to publish!";
-        return ;
-    }
-    
+    // =====================================================
+    // PUBLISH & UPLOAD
+    // =====================================================
+
+    function publishChart()
+    {
+        if (ClientPrefs.data.authToken == null || ClientPrefs.data.authToken == "") {
+            infoText.text = "You must be logged in to publish!";
+            infoText.color = FlxColor.RED;
+            return;
+        }
+
         if (chartPath == "") { 
             infoText.text = "Please select a JSON first!"; 
             infoText.color = FlxColor.RED;
@@ -152,14 +183,11 @@ function publishChart(){
         infoText.color = FlxColor.WHITE;
 
         // --- THE 100% CRASH-PROOF WAY (STRING REPLACEMENT) ---
-        // We read the file as a raw string
         var rawJson:String = sys.io.File.getContent(chartPath);
         
-        // We find the start of the "song" object
         var songObjectStart = rawJson.indexOf('"song":');
-        if (songObjectStart == -1) songObjectStart = 1; // Fallback to root
+        if (songObjectStart == -1) songObjectStart = 1; 
 
-        // We find the first comma inside that object and inject our fields right after it
         var firstComma = rawJson.indexOf(',', songObjectStart);
         
         var voicesUrl = scVoicesInput.text;
@@ -170,16 +198,12 @@ function publishChart(){
             injectionString += ',\n\t"sc_voices": "' + voicesUrl + '"';
         }
 
-        // Slice the string apart, put our new fields in the middle, and glue it back together
         var modifiedJson = rawJson.substr(0, firstComma) + injectionString + rawJson.substr(firstComma);
-
-        // Save the modified text back to the file
         sys.io.File.saveContent(chartPath, modifiedJson);
         // -----------------------------------------------------
 
         infoText.text = "Building ZIP Package...";
 
-        // Build ZIP (Audio paths are null because links are now INSIDE the JSON)
         var zipPath = backend.ChartPublisher.buildZip(
             songName, 
             chartPath, 
@@ -192,19 +216,29 @@ function publishChart(){
 
     function uploadZip(zipPath:String)
     {
-        infoText.text = "Uploading...";
+        infoText.text = "Uploading to Server...";
+        
         var bytes = File.getBytes(zipPath);
         var http = new haxe.Http(backend.OnlineManager.serverURL + "/upload_chart");
+        
         http.setHeader("Content-Type", "application/octet-stream");
         http.setHeader("Chart-Name", songName);
-        trace("Username for header: " + backend.ClientPrefs.username);
-        http.setHeader("Author-Name", backend.ClientPrefs.username);
+        http.setHeader("Author-Name", ClientPrefs.data.username);
+        http.setHeader("Chart-Desc", descInput.text); // NEW: Send the description!
+
         http.setPostBytes(bytes);
+
         http.onData = function(_) { 
-            infoText.text = "SUCCESS!"; 
+            infoText.text = "UPLOAD SUCCESSFUL!"; 
+            infoText.color = FlxColor.LIME;
             if(FileSystem.exists(zipPath)) FileSystem.deleteFile(zipPath);
         };
-        http.onError = function(err) { infoText.text = "Upload failed!"; };
+
+        http.onError = function(err) { 
+            infoText.text = "Upload failed: " + err; 
+            infoText.color = FlxColor.RED;
+        };
+
         http.request(true);
     }
 }
