@@ -31,6 +31,7 @@ obj/
 .haxelib/
 
 # FNFast Server Data (NEVER PUSH THESE)
+export/*
 *.db
 *.json
 secret.txt
@@ -42,3 +43,5 @@ password.txt
 # Local User Data
 assets/shared/materials/
 temp/
+bans.json
+demonlist.json
