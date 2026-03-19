@@ -383,7 +383,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		infoBox.getTab('Information').menu.add(infoText);
 		add(infoBox);
 
-		mainBox = new PsychUIBox(mainBoxPosition.x, mainBoxPosition.y, 300, 280, ['Charting', 'Data', 'Events', 'Note', 'Section', 'Song']);
+		mainBox = new PsychUIBox(mainBoxPosition.x, mainBoxPosition.y, 300, 380, ['Charting', 'Data', 'Events', 'Note', 'Section', 'Song']);
 		mainBox.selectedName = 'Song';
 		mainBox.scrollFactor.set();
 		mainBox.cameras = [camUI];
@@ -643,6 +643,10 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		opponentDropDown.selectedLabel = PlayState.SONG.player2;
 		girlfriendDropDown.selectedLabel = PlayState.SONG.gfVersion;
 		stageDropDown.selectedLabel = PlayState.SONG.stage;
+		if(playerInputText != null) playerInputText.text = PlayState.SONG.player1;
+		if(opponentInputText != null) opponentInputText.text = PlayState.SONG.player2;
+		if(girlfriendInputText != null) girlfriendInputText.text = PlayState.SONG.gfVersion;
+		if(stageInputText != null) stageInputText.text = PlayState.SONG.stage;
 		StageData.loadDirectory(PlayState.SONG);
 
 		// DATA TAB
@@ -2358,7 +2362,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		var objX = 10;
 		var objY = 10;
 
-		var txt = new FlxText(objX, objY, 280, "Any options here won't actually affect gameplay!");
+		var txt = new FlxText(objX, objY, 280, "");
 		txt.alignment = CENTER;
 		tab_group.add(txt);
 
@@ -3196,7 +3200,10 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	var playerDropDown:PsychUIDropDownMenu;
 	var opponentDropDown:PsychUIDropDownMenu;
 	var girlfriendDropDown:PsychUIDropDownMenu;
-	
+	var stageInputText:PsychUIInputText;
+	var playerInputText:PsychUIInputText;
+	var opponentInputText:PsychUIInputText;
+	var girlfriendInputText:PsychUIInputText;
 	function addSongTab()
 	{
 		var tab_group = mainBox.getTab('Song').menu;
@@ -3292,48 +3299,67 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		//
 		
 		objY += 40;
-		playerDropDown = new PsychUIDropDownMenu(objX, objY, [''], function(id:Int, character:String)
-		{
+
+		// PLAYER 1
+		tab_group.add(new FlxText(objX, objY + 2, 50, 'Player:'));
+		playerInputText = new PsychUIInputText(objX + 50, objY, 80, '');
+		playerInputText.onChange = function(old:String, cur:String) {
+			PlayState.SONG.player1 = cur;
+			updateJsonData(); updateHeads(true);
+		};
+		playerDropDown = new PsychUIDropDownMenu(objX + 140, objY, [''], function(id:Int, character:String) {
+			playerInputText.text = character;
 			PlayState.SONG.player1 = character;
-			updateJsonData();
-			updateHeads(true);
-			loadMusic();
-			trace('selected $character');
+			updateJsonData(); updateHeads(true); loadMusic();
 		});
-		stageDropDown = new PsychUIDropDownMenu(objX + 140, objY, [''], function(id:Int, stage:String)
-		{
+
+		// OPPONENT
+		objY += 40;
+		tab_group.add(new FlxText(objX, objY + 2, 50, 'Enemy:'));
+		opponentInputText = new PsychUIInputText(objX + 50, objY, 80, '');
+		opponentInputText.onChange = function(old:String, cur:String) {
+			PlayState.SONG.player2 = cur;
+			updateJsonData(); updateHeads(true);
+		};
+		opponentDropDown = new PsychUIDropDownMenu(objX + 140, objY, [''], function(id:Int, character:String) {
+			opponentInputText.text = character;
+			PlayState.SONG.player2 = character;
+			updateJsonData(); updateHeads(true); loadMusic();
+		});
+
+		// GIRLFRIEND
+		objY += 40;
+		tab_group.add(new FlxText(objX, objY + 2, 50, 'GF:'));
+		girlfriendInputText = new PsychUIInputText(objX + 50, objY, 80, '');
+		girlfriendInputText.onChange = function(old:String, cur:String) {
+			PlayState.SONG.gfVersion = cur;
+		};
+		girlfriendDropDown = new PsychUIDropDownMenu(objX + 140, objY, [''], function(id:Int, character:String) {
+			girlfriendInputText.text = character;
+			PlayState.SONG.gfVersion = character;
+		});
+
+		// STAGE
+		objY += 40;
+		tab_group.add(new FlxText(objX, objY + 2, 50, 'Stage:'));
+		stageInputText = new PsychUIInputText(objX + 50, objY, 80, '');
+		stageInputText.onChange = function(old:String, cur:String) {
+			PlayState.SONG.stage = cur;
+			StageData.loadDirectory(PlayState.SONG);
+		};
+		stageDropDown = new PsychUIDropDownMenu(objX + 140, objY, [''], function(id:Int, stage:String) {
+			stageInputText.text = stage;
 			PlayState.SONG.stage = stage;
 			StageData.loadDirectory(PlayState.SONG);
-			trace('selected $stage');
 		});
-		
-		opponentDropDown = new PsychUIDropDownMenu(objX, objY + 40, [''], function(id:Int, character:String)
-		{
-			PlayState.SONG.player2 = character;
-			updateJsonData();
-			updateHeads(true);
-			loadMusic();
-			trace('selected $character');
-		});
-		
-		girlfriendDropDown = new PsychUIDropDownMenu(objX, objY + 80, [''], function(id:Int, character:String)
-		{
-			PlayState.SONG.gfVersion = character;
-			trace('selected $character');
-		});
-		
-		tab_group.add(new FlxText(bpmStepper.x, bpmStepper.y - 15, 50, 'BPM:'));
-		tab_group.add(new FlxText(scrollSpeedStepper.x, scrollSpeedStepper.y - 15, 80, 'Scroll Speed:'));
-		tab_group.add(new FlxText(audioOffsetStepper.x, audioOffsetStepper.y - 15, 100, 'Audio Offset (ms):'));
-		tab_group.add(bpmStepper);
-		tab_group.add(scrollSpeedStepper);
-		tab_group.add(audioOffsetStepper);
 
-		//dropdowns
-		tab_group.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 80, 'Stage:'));
-		tab_group.add(new FlxText(playerDropDown.x, playerDropDown.y - 15, 80, 'Player:'));
-		tab_group.add(new FlxText(opponentDropDown.x, opponentDropDown.y - 15, 80, 'Opponent:'));
-		tab_group.add(new FlxText(girlfriendDropDown.x, girlfriendDropDown.y - 15, 80, 'Girlfriend:'));
+		// Add everything to the UI Group
+		tab_group.add(playerInputText);
+		tab_group.add(opponentInputText);
+		tab_group.add(girlfriendInputText);
+		tab_group.add(stageInputText);
+
+		// Dropdowns must be added last so they overlap everything else when opened
 		tab_group.add(stageDropDown);
 		tab_group.add(girlfriendDropDown);
 		tab_group.add(opponentDropDown);

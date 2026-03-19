@@ -259,7 +259,7 @@ class PlayState extends MusicBeatState
 	// Less laggy controls
 	private var keysArray:Array<String>;
 	public var songName:String;
-
+	public var isSubmitting:Bool = false;
 	// Callbacks for stages
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
@@ -555,7 +555,7 @@ class PlayState extends MusicBeatState
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 		moveCameraSection();
 		var invalidReasons:Array<String> = [];
-
+		isSubmitting = true; //Prevent score submission until we check the validity of the play session
 		if (cpuControlled) invalidReasons.push("Botplay");
 		if (backend.ClientPrefs.data.authToken == null || backend.ClientPrefs.data.authToken == "") invalidReasons.push("Not Logged In");
 		if (healthGain != 1) invalidReasons.push("Health Gain Mod");
@@ -568,7 +568,7 @@ class PlayState extends MusicBeatState
 		if (invalidReasons.length > 0)
 		{
 			var warningStr = "UNRANKED PLAY - SCORE WILL NOT SAVE\nCauses: " + invalidReasons.join(", ");
-			
+			isSubmitting = false;
 			var unrankedWarning = new FlxText(0, 120, FlxG.width, warningStr, 20);
 			unrankedWarning.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			unrankedWarning.scrollFactor.set();
@@ -2486,11 +2486,19 @@ class PlayState extends MusicBeatState
 		practiceMode = ClientPrefs.getGameplaySetting('practice');
 		cpuControlled = ClientPrefs.getGameplaySetting('botplay'); // To send to server, make sure healtgain/loss is 1, and practice mode is off, and scroll speed multiplier is 1 and multiplicative (since constant may lower the songspeed), otherwise it might cause issues with some charts and stuff. Also, if you have botplay on, it won't send scores to the server at all, so you can botplay to test charts without worrying about it sending bad scores to the server
 */
-    if (!cpuControlled && ClientPrefs.getGameplaySetting('songspeed') != 1 &&backend.ClientPrefs.authToken != ""  && healthGain == 1 && healthLoss == 1 && !practiceMode && ClientPrefs.getGameplaySetting('scrollspeed') == 1 && ClientPrefs.getGameplaySetting('scrolltype') == 'multiplicative' )
+    if (isSubmitting == true)
     {
         var songId:String = Paths.formatToSongPath(SONG.song);
-        var user:String = backend.ClientPrefs.username;
-        var token:String = backend.ClientPrefs.authToken;
+		var user:String = "Guest";
+		if (backend.ClientPrefs.data != null && backend.ClientPrefs.data.username != null && backend.ClientPrefs.data.username != "") {
+			user = backend.ClientPrefs.data.username;
+		}
+
+		// 2. Get the token safely. If it's null, default to an empty string
+		var token:String = "";
+		if (backend.ClientPrefs.data != null && backend.ClientPrefs.data.authToken != null) {
+			token = backend.ClientPrefs.data.authToken;
+		}
         var acc:Float = ratingPercent * 100; // Psych Engine accuracy variable
 
         var http = new haxe.Http(backend.OnlineManager.serverURL + "/submit_score");

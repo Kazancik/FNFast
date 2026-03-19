@@ -105,6 +105,8 @@ class LoginState extends FlxState
                 // FIX: Save for CURRENT session
                 ClientPrefs.data.authToken = response.token;
                 ClientPrefs.data.username = response.username;
+                ClientPrefs.username = response.username; // --- IGNORE ---
+                ClientPrefs.authToken = response.token; // --- IGNORE ---
                 ClientPrefs.saveSettings();
 
                 statusText.text = "Login success!";
